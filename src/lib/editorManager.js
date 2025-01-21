@@ -1,6 +1,7 @@
 import initColorView from "ace/colorView";
 import { deactivateColorView } from "ace/colorView";
-import { setCommands, setKeyBindings } from "ace/commands";
+import { setCommands } from "ace/commands";
+import keyBindings from "lib/keyBindings";
 import touchListeners from "ace/touchHandler";
 import { scrollAnimationFrame } from "ace/touchHandler";
 import list from "components/collapsableList";
@@ -357,7 +358,7 @@ async function EditorManager($header, $body) {
 
 		touchListeners(editor);
 		setCommands(editor);
-		await setKeyBindings(editor);
+		await keyBindings.init(editor);
 		Emmet.setCore(window.emmet);
 		editor.setFontSize(fontSize);
 		editor.setHighlightSelectedWord(true);
