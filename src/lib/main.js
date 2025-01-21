@@ -34,6 +34,7 @@ import Logger from "lib/logger";
 import openFolder from "lib/openFolder";
 import restoreFiles from "lib/restoreFiles";
 import settings from "lib/settings";
+import keyBindings from "lib/keyBindings";
 import startAd from "lib/startAd";
 import mustache from "mustache";
 import plugins from "pages/plugins";
@@ -46,7 +47,6 @@ import loadPolyFill from "utils/polyfill";
 import $_fileMenu from "views/file-menu.hbs";
 import $_menu from "views/menu.hbs";
 
-import { setKeyBindings } from "ace/commands";
 import { initModes } from "ace/modelist";
 import { keydownState } from "handlers/keyboard";
 import { initFileList } from "lib/fileList";
@@ -382,8 +382,13 @@ async function loadApp() {
 		if (activeFile) editorManager.editor.blur();
 	};
 	sdcard.watchFile(KEYBINDING_FILE, async () => {
-		await setKeyBindings(editorManager.editor);
-		toast(strings["key bindings updated"]);
+	  try {
+	    const bindings = await fsOperation(KEYBINDING_FILE).readFile("json");
+	    if (!bindings) return;
+	    await keyBindings.update(bindings, false);
+	  } catch (e) {
+	    console.error("Failed to update keyBindings: " + e.message);
+	  }
 	});
 	//#endregion
 
