@@ -1,5 +1,5 @@
 import ajax from "@deadlyjack/ajax";
-import { resetKeyBindings } from "ace/commands";
+import keyBindings from "lib/keyBindings";
 import settingsPage from "components/settingsPage";
 import loader from "dialogs/loader";
 import fsOperation from "fileSystem";
@@ -189,7 +189,7 @@ export default function otherSettings() {
 					actionStack.pop(2);
 					openFile(KEYBINDING_FILE);
 				} else {
-					resetKeyBindings();
+					await keyBindings.reset();
 				}
 				return;
 			}
