@@ -37,6 +37,7 @@ export default function settingsPage(
 ) {
 	let hideSearchBar = () => {};
 	const $page = Page(title);
+	$page.id = "settings";
 	/**@type {HTMLDivElement} */
 	const $list = <div tabIndex={0} className="main list"></div>;
 	/**@type {ListItem} */
